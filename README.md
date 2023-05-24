@@ -1,13 +1,14 @@
-# web-nodejs-sample
+# Student API Front-End
 
-ExpressJS Sample Application
+The repo consists of a sample front end application built with:
+- NodeJS
+- Express
+- Static - HTML, CSS, JavaScript
 
-# Developer Workspace
-[![Contribute](http://beta.codenvy.com/factory/resources/codenvy-contribute.svg)](http://beta.codenvy.com/f?id=r8et9w6vohmqvro8)
 
-# Stack to use
+# Stack used
 
-FROM [codenvy/node](https://hub.docker.com/r/codenvy/node/)
+
 
 # How to run
 

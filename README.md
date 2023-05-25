@@ -8,7 +8,9 @@ The repo consists of a sample front end application built with:
 
 
 # Stack used
-
+- UBI 8
+- NodeJs-16
+- Express 4.18
 
 
 # How to run

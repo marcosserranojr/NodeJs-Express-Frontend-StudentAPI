@@ -59,6 +59,7 @@ const navChildClick=(event) =>{
         mainEl.insertAdjacentHTML('afterbegin', studentPageHTML);
         const btnViewEl = document.querySelector('#view');
         btnViewEl.addEventListener('click', clickViewStudents);
+       // viewEl.classList.add("studentView");
         
     }
     if (navIndex==2)
@@ -92,8 +93,7 @@ const apiCall = async (url, apiMeth,type) =>{
 function clickViewStudents(){     
     console.log("CLICK View Registered Students")
     const viewEl = document.querySelector("#tblDiv");
-    const tbStudentEl_Length = (viewEl.querySelector("#tbStudent").children.length);
-    viewEl.classList.add("studentView");
+    const tbStudentEl_Length = (viewEl.querySelector("#tbStudent").children.length);    
 
     if(tbStudentEl_Length<=0) //Ensures table is created once only
     {
@@ -143,7 +143,9 @@ function clickViewStudents(){
             document.getElementById("theadTr").appendChild(thEl);
             }
         })
-    }
+    }  
+    
+    viewEl.classList.add("studentView"); //adds class that sets height to the div that holds the table 
 };
 //Submit functions register a new student
 function submitAddStudent(event){

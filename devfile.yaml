@@ -1,55 +1,67 @@
 schemaVersion: 2.1.0
 metadata:
-  name: nodejs-StudentAPI-WebApp
+  name: nodejs
+  displayName: Node.js Runtime
+  description: Node.js 16 application
+  icon: https://nodejs.org/static/images/logos/nodejs-new-pantone-black.svg
+  tags:
+    - Node.js
+    - Express
+    - ubi8
+  projectType: Node.js
+  language: JavaScript
+  version: 2.1.1
+projects:
+  - name: nodejs-studentapi-frontend
+    git:
+      remotes:
+        origin: 'https://github.com/marcosserranojr/NodeJs-Express-Frontend-StudentAPI.git'
 components:
-  - name: tools
+  - name: runtime
     container:
-      image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
-      endpoints:
-        - exposure: public
-          name: nodejs
-          protocol: http
-          targetPort: 3000
-      memoryLimit: 1G
+      image: registry.access.redhat.com/ubi8/nodejs-16:latest
+      args: ['tail', '-f', '/dev/null']
+      memoryLimit: 1024Mi
       mountSources: true
-
+      env:
+        - name: DEBUG_PORT
+          value: '5858'
+      endpoints:
+        - name: http-node
+          targetPort: 3000
+        - exposure: none
+          name: debug
+          targetPort: 5858
 commands:
-  - id: install-dependencies
+  - id: install
     exec:
-      label: "Install dependencies"
-      component: tools
-      workingDir: ${PROJECT_SOURCE}/app
-      commandLine: "npm install"
+      component: runtime
+      commandLine: npm install
+      workingDir: ${PROJECT_SOURCE}
       group:
         kind: build
         isDefault: true
-
-  - id: run-application
+  - id: run
     exec:
-      label: "Run web application"
-      component: tools
-      workingDir: ${PROJECT_SOURCE}/app
-      commandLine: "nodemon app.js"
+      component: runtime
+      commandLine: npm start
+      workingDir: ${PROJECT_SOURCE}
       group:
         kind: run
-
+        isDefault: true
   - id: debug
     exec:
-      label: "Run web application (debugging enabled)"
-      component: tools
-      workingDir: ${PROJECT_SOURCE}/app
-      commandLine: "nodemon --inspect app.js"
+      component: runtime
+      commandLine: npm run debug
+      workingDir: ${PROJECT_SOURCE}
       group:
         kind: debug
         isDefault: true
-
-  - id: stop-application
+  - id: test
     exec:
-      label: "Stop web application"
-      component: tools
-      commandLine: >-
-          node_server_pids=$(pgrep -fx '.*nodemon (--inspect )?app.js' | tr "\\n" " ") &&
-          echo "Stopping node server with PIDs: ${node_server_pids}" && 
-          kill -15 ${node_server_pids} &>/dev/null && echo 'Done.'
+      component: runtime
+      commandLine: npm test
+      workingDir: ${PROJECT_SOURCE}
       group:
-        kind: run
+        kind: test
+        isDefault: true

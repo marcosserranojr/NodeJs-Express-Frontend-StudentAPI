@@ -17,28 +17,19 @@ projects:
       remotes:
         origin: 'https://github.com/marcosserranojr/NodeJs-Express-Frontend-StudentAPI.git'
 components:
-  - name: runtime
-    container:
-      image: registry.access.redhat.com/ubi8/nodejs-16:latest
-      args: ['tail', '-f', '/dev/null']
-      memoryLimit: 1024Mi
-      mountSources: true
-      env:
-        - name: DEBUG_PORT
-          value: '5858'
-      endpoints:
-        - name: http-node
-          targetPort: 3000
-        - exposure: none
-          name: debug
-          targetPort: 5858
-
   - name: tools
     container:
       image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
-     
+      endpoints:
+        - exposure: public
+          name: nodejs
+          protocol: http
+          targetPort: 3000
       memoryLimit: 1G
-      mountSources: true
+      mountSources: true'
+     
+
+ 
       
 commands:
   - id: install

@@ -1,11 +1,23 @@
+# Sample copied from https://github.com/nodeshift-starters/devfile-sample/blob/main/Dockerfile
+
+# Install the app dependencies in a full Node docker image
 FROM registry.access.redhat.com/ubi8/nodejs-18:latest
-ENV NODE_ENV=production
-WORKDIR /opt/app-root/src
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install app dependencies
+RUN npm install --production
+
+# Copy the dependencies into a Slim Node docker image
+FROM registry.access.redhat.com/ubi8/nodejs-18-minimal:latest
+
+# Install app dependencies
+COPY --from=0 /opt/app-root/src/node_modules /opt/app-root/src/node_modules
 COPY ["package.json", "package-lock.json*",  "./"]
-RUN npm install --production && mv node_modules ../
-COPY /app .
-EXPOSE 3000
+COPY /app  /opt/app-root/src
+
 ENV NODE_ENV production
 ENV PORT 3000
-CMD ["npm", "start"]
 
+CMD ["npm", "start"]

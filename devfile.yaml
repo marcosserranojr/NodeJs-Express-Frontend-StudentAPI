@@ -26,11 +26,7 @@ components:
           protocol: http
           targetPort: 3000
       memoryLimit: 1G
-      mountSources: true'
-     
-
- 
-      
+      mountSources: true'     
 commands:
   - id: install
     exec:
